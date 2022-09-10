@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping ("/employee")
 public class EmployeeController {
 
-    private final EmployeeService employeeService;
+    private EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService){
         this.employeeService = employeeService;
@@ -21,24 +21,35 @@ public class EmployeeController {
 
     @GetMapping("/add")
     public Employee addEmployee (@RequestParam ("firstName") String firstName,
-                                   @RequestParam ("lastName") String lastName){
-        return employeeService.addEmployee(firstName,lastName);
+                                   @RequestParam ("lastName") String lastName,
+                                    @RequestParam ("departmentId") int department,
+                                      @RequestParam ("salary") double salary
+    ){
+        return employeeService.addEmployee(firstName,lastName,department, salary);
     }
 
     @GetMapping("/find")
     public Employee findEmployee (@RequestParam ("firstName") String firstName,
-                                   @RequestParam ("lastName") String lastName){
-        return employeeService.findEmployee(firstName,lastName);
+                                  @RequestParam ("lastName") String lastName,
+                                  @RequestParam ("departmentId") int department,
+                                  @RequestParam ("salary") double salary
+    ){
+        return employeeService.findEmployee(firstName,lastName,department, salary);
     }
 
     @GetMapping("/remove")
-    public Employee removeEmployee (@RequestParam ("firstName") String firstName,
-                                   @RequestParam ("lastName") String lastName){
-        return employeeService.removeEmployee(firstName,lastName);
+    public Employee removeEmployee
+            (@RequestParam ("firstName") String firstName,
+             @RequestParam ("lastName") String lastName,
+             @RequestParam ("departmentId") int department,
+             @RequestParam ("salary") double salary
+    ){
+        return employeeService.removeEmployee(firstName,lastName,department, salary);
     }
     @GetMapping("/all")
     public List<Employee> getAll (){
-        return employeeService.getPrintAll();
+         return  employeeService.getPrintAll();
+
     }
 
 

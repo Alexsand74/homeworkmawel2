@@ -5,10 +5,7 @@ import com.calculator.homework.exception.EmployeeAlreadyAddedException;
 import com.calculator.homework.exception.EmployeeNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class EmployeeService {
@@ -31,8 +28,11 @@ public class EmployeeService {
 //          }
 //          throw new EmployeeStorageIsFullException();
 //    }
-    public Employee addEmployee (String firstName, String lastName){
-        Employee employee = new Employee(firstName,lastName);
+    public Employee addEmployee (String firstName,
+                                 String lastName,
+                                 int department,
+                                 double salary){
+        Employee employee = new Employee(firstName,lastName,department,salary);
           if ( employees.containsKey(employee.getFullName())){
             throw  new EmployeeAlreadyAddedException(); }
                        employees.put(employee.getFullName(), employee);
@@ -47,8 +47,11 @@ public class EmployeeService {
 //            throw new EmployeeNotFoundException();
 //        }
 //    }
-    public Employee findEmployee (String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
+    public Employee findEmployee (String firstName,
+                                  String lastName,
+                                  int department,
+                                  double salary) {
+        Employee employee = new Employee(firstName, lastName, department,salary);
         if (employees.containsKey(employee.getFullName())) {
             return employees.get (employee.getFullName());
         } else {
@@ -65,8 +68,11 @@ public class EmployeeService {
 //            throw new EmployeeNotFoundException();
 //        }
 //}
-public Employee removeEmployee (String firstName, String lastName){
-        Employee employee = new Employee(firstName, lastName);
+public Employee removeEmployee (String firstName,
+                                String lastName,
+                                int department,
+                                double salary){
+        Employee employee = new Employee(firstName, lastName, department,salary);
         if (employees.containsKey(employee.getFullName())) {
             employees.remove(employee.getFullName());
             return employee;
@@ -77,9 +83,14 @@ public Employee removeEmployee (String firstName, String lastName){
 //    public List<Employee> getPrintAll (){
 //        return new ArrayList<>(employees);
 //    }
-    public Collection<Employee> getPrintAll (){
-        return Collections.unmodifiableCollection(employees.values());
+    public List<Employee> getPrintAll (){
+        return (List<Employee>) Collections.unmodifiableCollection(employees.values());
     }
+
+    public List<Employee>  getAll() {
+        return (List<Employee>) Collections.unmodifiableCollection(employees.values());
+    }
+
 
 // *********** методы при работе с массивом объектов **********************************
 //
