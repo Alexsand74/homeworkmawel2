@@ -3,9 +3,15 @@ package com.calculator.homework.servise;
 import com.calculator.homework.employee.Employee;
 import com.calculator.homework.exception.EmployeeAlreadyAddedException;
 import com.calculator.homework.exception.EmployeeNotFoundException;
+import com.calculator.homework.exception.InvalidInputException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.apache.commons.lang3.StringUtils.isAlpha;
 
 @Service
 public class EmployeeService {
@@ -32,6 +38,8 @@ public class EmployeeService {
                                  String lastName,
                                  int department,
                                  double salary){
+        validateInput (firstName, lastName);
+
         Employee employee = new Employee(firstName,lastName,department,salary);
           if ( employees.containsKey(employee.getFullName())){
             throw  new EmployeeAlreadyAddedException(); }
@@ -51,6 +59,8 @@ public class EmployeeService {
                                   String lastName,
                                   int department,
                                   double salary) {
+
+        validateInput (firstName, lastName);
         Employee employee = new Employee(firstName, lastName, department,salary);
         if (employees.containsKey(employee.getFullName())) {
             return employees.get (employee.getFullName());
@@ -72,6 +82,7 @@ public Employee removeEmployee (String firstName,
                                 String lastName,
                                 int department,
                                 double salary){
+    validateInput (firstName, lastName);
         Employee employee = new Employee(firstName, lastName, department,salary);
         if (employees.containsKey(employee.getFullName())) {
             employees.remove(employee.getFullName());
@@ -89,6 +100,12 @@ public Employee removeEmployee (String firstName,
 
     public List<Employee>  getAll() {
         return (List<Employee>) Collections.unmodifiableCollection(employees.values());
+    }
+
+    private void validateInput (String firstName, String lastName){
+        if (!(isAlpha(firstName) && isAlpha(lastName))){
+            throw new InvalidInputException();
+        }
     }
 
 
